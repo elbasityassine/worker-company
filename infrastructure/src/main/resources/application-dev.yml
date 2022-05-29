@@ -1,0 +1,20 @@
+services:
+  public:
+    entreprise:
+      url: https://entreprise.data.gouv.fr
+
+feature:
+  batch:
+    chunk-size: 10
+    output-folder: C:\dev\workspaces\yassine-workspace\worker\worker-company\infrastructure\src\main\resources\out
+    entreprise:
+      siret-companies-file-path: C:\dev\workspaces\yassine-workspace\worker\worker-company\infrastructure\src\main\resources\in\SIRETCompanies.in
+
+feign:
+  autoconfiguration:
+    jackson:
+      enabled: true
+
+spring:
+  main:
+    web-application-type: none

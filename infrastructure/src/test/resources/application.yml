@@ -1,0 +1,15 @@
+services:
+  public:
+    entreprise:
+      url: http://localhost:8080
+
+feature:
+  batch:
+    chunk-size: 10
+    output-folder: /out
+    entreprise:
+      siret-companies-file-path: /in/SIRETCompanies.in
+
+spring:
+  profiles:
+    active: test

@@ -1,0 +1,20 @@
+services:
+  public:
+    entreprise:
+      url: https://entreprise.data.gouv.fr
+
+feature:
+  batch:
+    chunk-size: 10
+    output-folder: C:\dev\worker_company\out
+    entreprise:
+      siret-companies-file-path: C:\dev\worker_company\in\SIRETCompanies.in
+    
+feign:
+  autoconfiguration:
+    jackson:
+      enabled: true
+
+spring:
+  main:
+    web-application-type: none
