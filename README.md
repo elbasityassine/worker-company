@@ -16,13 +16,12 @@ database info in our system.
 #### Unit tests:
 * `gradle clean test` : runs Junit tests
 
-## Run with Docker Compose
-1. `docker system prune` : in case you have a running docker image
-2. `gradle build -x test && docker-compose up --build`
+## Environment variable
+* `%COMPANIES_BATCH_OUT_FOLDER%` To specify the export folder paths of csv files
+* `%SIRET_COMPANIES_FILE_IN%` To specify the path of the file containing the SIRETs of the companies to load
+* `%COMPANIES_BATCH_CHUNK_SIZE%` To specify the size of chunk
+* `%SERVICE_PUBLIC_ENTREPRISE%` URL of api public enterprise
 
 ## Startup using Profile
-* `java -jar -Dspring.profiles.active=prod presentation/target/presentation-0.0.1-SNAPSHOT.jar`
+* `java -jar -Dspring.profiles.active=prod application/target/application-0.0.1-SNAPSHOT.jar`
 
-## Properties
-* `feature.batch.output-folder` To specify the export folder paths of csv files
-* `feature.batch.entreprise.siret-companies-file-path` To specify the path of the file containing the SIRETs of the companies to load

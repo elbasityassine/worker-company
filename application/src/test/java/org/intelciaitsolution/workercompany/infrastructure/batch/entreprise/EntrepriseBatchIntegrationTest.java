@@ -1,17 +1,18 @@
 package org.intelciaitsolution.workercompany.infrastructure.batch.entreprise;
 
-import org.intelciaitsolution.workercompany.domain.entreprise.provider.EntrepriseProvider;
-import org.intelciaitsolution.workercompany.infrastructure.batch.entreprise.step.EntrepriseProcessor;
-import org.intelciaitsolution.workercompany.infrastructure.batch.entreprise.step.EntrepriseReader;
+import org.intelciaitsolution.workercompany.domain.entreprise.Entreprise;
+import org.intelciaitsolution.workercompany.infrastructure.batch.entreprise.dto.EntrepriseDTO;
 import org.intelciaitsolution.workercompany.infrastructure.batch.entreprise.step.EntrepriseStepConfiguration;
 import org.intelciaitsolution.workercompany.infrastructure.batch.entreprise.step.EntrepriseWriter;
 import org.intelciaitsolution.workercompany.infrastructure.config.ModelMapperConfig;
-import org.intelciaitsolution.workercompany.infrastructure.repositories.entreprise.EntrepriseProviderImpl;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.batch.core.*;
-import org.springframework.batch.core.explore.JobExplorer;
+import org.springframework.batch.core.JobExecution;
+import org.springframework.batch.core.StepExecution;
+import org.springframework.batch.item.ItemProcessor;
+import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.test.JobLauncherTestUtils;
 import org.springframework.batch.test.context.SpringBatchTest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,28 +32,29 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @ContextConfiguration(classes = {
         EntrepriseJobConfig.class,
         EntrepriseStepConfiguration.class,
-        EntrepriseReader.class,
-        EntrepriseProcessor.class,
-        EntrepriseWriter.class,
-        EntrepriseProviderImpl.class,
-        ModelMapperConfig.class
+        ModelMapperConfig.class,
+        EntrepriseWriter.class
 }, initializers = ConfigDataApplicationContextInitializer.class)
 class EntrepriseBatchIntegrationTest {
 
     @Autowired
     private JobLauncherTestUtils jobLauncherTestUtils;
 
-    @Autowired
-    private JobExplorer jobExplorer;
-
-    @Autowired
-    private Step step;
+    @MockBean
+    private ItemReader<Entreprise> reader;
 
     @MockBean
-    private EntrepriseProvider entrepriseProvider;
+    private ItemProcessor<Entreprise, EntrepriseDTO> processor;
 
+    private JobExecution jobExecution;
+
+    private static final String COMPLETED = "COMPLETED";
     private static final String JOB_NAME = "entrepriseJob";
-    private static final String FIRST_STEP_NAME = "entrepriseProcessingStep";
+
+    @BeforeEach
+    void setUp()  throws Exception {
+        jobExecution = jobLauncherTestUtils.launchJob();
+    }
 
     @Test
     void should_load_batch() {
@@ -61,16 +63,10 @@ class EntrepriseBatchIntegrationTest {
     }
 
     @Test
-    void should_execute_one_step_with_status_complete() throws Exception {
-
-        // when
-        JobExecution jobExecution = jobLauncherTestUtils.launchStep(FIRST_STEP_NAME);
+    void should_execute_one_step_with_status_complete() {
         Collection<StepExecution> actualStepExecutions = jobExecution.getStepExecutions();
-        ExitStatus actualJobExitStatus = jobExecution.getExitStatus();
 
-
-        // then
         assertEquals(actualStepExecutions.size(), 1);
-        assertEquals(actualJobExitStatus.getExitCode(), "COMPLETED");
+        assertEquals(jobExecution.getExitStatus().getExitCode(), COMPLETED);
     }
 }

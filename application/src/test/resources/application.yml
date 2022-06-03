@@ -1,0 +1,15 @@
+services:
+  public:
+    entreprise:
+      url: http://localhost:8900
+
+feature:
+  batch:
+    chunk-size: 10
+    output-folder: C:/dev/workspaces/yassine-workspace/worker/worker-company/application/src/test/resources/out
+    entreprise:
+      siret-companies-file-path: C:/dev/workspaces/yassine-workspace/worker/worker-company/application/src/test/resources/in/SIRETCompanies.in
+
+spring:
+  profiles:
+    active: test

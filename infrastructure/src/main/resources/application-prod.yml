@@ -1,14 +1,14 @@
 services:
   public:
     entreprise:
-      url: https://entreprise.data.gouv.fr
+      url: ${SERVICE_PUBLIC_ENTREPRISE}
 
 feature:
   batch:
-    chunk-size: 10
-    output-folder: C:\dev\worker_company\out
+    chunk-size: ${COMPANIES_BATCH_CHUNK_SIZE}
+    output-folder: ${COMPANIES_BATCH_OUT_FOLDER}
     entreprise:
-      siret-companies-file-path: C:\dev\worker_company\in\SIRETCompanies.in
+      siret-companies-file-path: ${SIRET_COMPANIES_FILE_IN}
     
 feign:
   autoconfiguration:

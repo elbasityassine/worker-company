@@ -1,0 +1,24 @@
+{
+  "request": {
+    "url" : "/api/sirene/v3/etablissements/31302979500017",
+    "method" : "GET"
+  },
+  "response": {
+    "status": 200,
+    "jsonBody": {
+      "etablissement": {
+        "id": 449321770,
+        "nic": "31302979500017",
+        "geo_adresse": "261 Chemin des Colles 06140 Vence",
+        "date_creation": "2002-06-01",
+        "unite_legale": {
+          "denomination": "Big COMPANY",
+          "numero_tva_intra": "FR96313029795"
+        }
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}
